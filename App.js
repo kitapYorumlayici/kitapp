@@ -6,8 +6,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>Boş proje</Text>
-      <Text>Boş proje</Text>
-      <Text>Boş proje</Text>
+    
+    
       <StatusBar style="auto" />
     </View>
   );
