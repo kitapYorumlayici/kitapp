@@ -1,23 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import Homepage from "./pages/Homepage";
+import Mainpage from "./pages/Mainpage";
+import * as firebase from "firebase";
+import Keys from "./config/keys";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Boş proje</Text>
-    
-    
-      <StatusBar style="auto" />
-    </View>
-  );
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoggedIn: false,
+      isAuthReady: false,
+      isLoaded: true,
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(Keys.firebaseConfig);
+      firebase.auth().onAuthStateChanged((user) => {
+        this.setState({ isAuthReady: true });
+        this.setState({ isLoggedIn: !!user });
+      });
+    }
+  }
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        {this.state.isLoggedIn == true ? <Mainpage /> : <Homepage />}
+      </View>
+    );
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
