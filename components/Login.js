@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import {
-  Container,
-  Button,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
+  View,
   Text,
-} from "native-base";
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  TouchableWithoutFeedback,
+} from "react-native";
 import HomeHeader from "./HomeHeader";
 import * as firebase from "firebase";
 
@@ -26,53 +25,79 @@ const Login = ({ navigation }) => {
     }
   };
   return (
-    <Container>
+    <View style={styles.container}>
       <HomeHeader navigation={navigation} title="Giriş Yap" />
-      <Content>
-        <Form>
-          <Item floatingLabel>
-            <Label>Email</Label>
-            <Input
-              onChangeText={(emailValue) => {
-                setEmail(emailValue);
-              }}
-              value={email}
-            />
-          </Item>
-          <Item floatingLabel>
-            <Label>Şifre</Label>
-            <Input
-              placeholder="Password"
-              onChangeText={(passwordValue) => {
-                setpassword(passwordValue);
-              }}
-              value={password}
-            />
-          </Item>
-          <Button
-            onPress={loginWithemail}
-            success
-            style={{ width: "45%", alignSelf: "center", marginTop: 15 }}
-          >
-            <Text style={{ textAlign: "center", width: "100%" }}>
-              Giriş Yap
-            </Text>
-          </Button>
-          <Text style={{ fontSize: 12, textAlign: "center", marginTop: 15 }}>
-            Bir hesaba mı ihtiyacın var? &nbsp;
-            <Text
-              style={{ color: "black", textDecorationLine: "underline" }}
-              onPress={() => {
-                navigation.navigate("Kayıt Ol");
-              }}
-            >
-              Kayıt Ol
-            </Text>
+      <View style={{ marginVertical: 75 }}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Email"
+            onChangeText={(emailValue) => {
+              setEmail(emailValue);
+            }}
+            value={email}
+          />
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Password"
+            onChangeText={(passwordValue) => {
+              setpassword(passwordValue);
+            }}
+            textContentType="password"
+            value={password}
+          />
+        </TouchableWithoutFeedback>
+        <TouchableOpacity style={styles.btn} onPress={loginWithemail}>
+          <Text style={{ width: "100%", textAlign: "center", fontSize: 16 }}>
+            Giriş Yap
           </Text>
-        </Form>
-      </Content>
-    </Container>
+        </TouchableOpacity>
+
+        <Text style={{ fontSize: 12, textAlign: "center", marginTop: 15 }}>
+          Bir hesaba mı ihtiyacın var? &nbsp;
+          <Text
+            style={{
+              color: "black",
+              textDecorationLine: "underline",
+              fontSize: 16,
+            }}
+            onPress={() => {
+              navigation.navigate("Kayıt Ol");
+            }}
+          >
+            Kayıt Ol
+          </Text>
+        </Text>
+      </View>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  textInput: {
+    borderBottomWidth: 1,
+    borderBottomColor: "grey",
+    marginTop: 5,
+    padding: 10,
+    width: "100%",
+    alignSelf: "center",
+    fontSize: 16,
+  },
+  btn: {
+    paddingHorizontal: 2,
+    paddingVertical: 15,
+    borderColor: "transparent",
+    backgroundColor: "#6f9eaf",
+    width: "35%",
+    borderRadius: 50,
+    marginVertical: 15,
+    alignSelf: "center",
+  },
+});
 
 export default Login;

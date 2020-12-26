@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as firebase from "firebase";
+import Post from "../components/Post";
 
 function DetailsScreen() {
   return (
@@ -60,14 +61,6 @@ function SettingsStackScreen() {
   );
 }
 
-const PostScreen = () => {
-  return (
-    <View>
-      <Text>Post Screen</Text>
-    </View>
-  );
-};
-
 const ProfileScreen = () => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -91,6 +84,16 @@ const ProfileScreen = () => {
     </View>
   );
 };
+
+const PostStack = createStackNavigator();
+
+function PostStackScreen() {
+  return (
+    <PostStack.Navigator>
+      <PostStack.Screen name="Post" component={Post} />
+    </PostStack.Navigator>
+  );
+}
 
 const Tab = createBottomTabNavigator();
 
@@ -123,7 +126,7 @@ export default function Mainpage() {
       >
         <Tab.Screen name="Home" component={HomeStackScreen} />
         <Tab.Screen name="Categories" component={SettingsStackScreen} />
-        <Tab.Screen name="Post" component={PostScreen} />
+        <Tab.Screen name="Post" component={PostStackScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
     </NavigationContainer>
