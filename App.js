@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StatusBar, StyleSheet, Text, View } from "react-native";
 import Homepage from "./pages/Homepage";
 import Mainpage from "./pages/Mainpage";
 import * as firebase from "firebase";
@@ -24,6 +24,7 @@ export default class App extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <StatusBar barStyle="dark-content" />
         {this.state.isLoggedIn == true ? <Mainpage /> : <Homepage />}
       </View>
     );

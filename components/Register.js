@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
-import HomeHeader from "./HomeHeader";
 import {
-  Container,
-  Button,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
+  View,
   Text,
-} from "native-base";
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  TouchableWithoutFeedback,
+} from "react-native";
+import HomeHeader from "./HomeHeader";
 import * as firebase from "firebase";
 import { AddUser } from "../users/AddUser";
 
@@ -50,77 +48,110 @@ const Register = ({ navigation }) => {
   };
 
   return (
-    <Container>
+    <View style={styles.container}>
       <HomeHeader navigation={navigation} title="Kayıt Ol" />
-      <Content>
-        <Form>
-          <Item floatingLabel>
-            <Label>Adınız</Label>
-            <Input
-              onChangeText={(nameValue) => {
-                setname(nameValue);
-              }}
-              value={name}
-            />
-          </Item>
-          <Item floatingLabel>
-            <Label>Soyadınız</Label>
-            <Input
-              onChangeText={(surnameValue) => {
-                setsurname(surnameValue);
-              }}
-              value={surname}
-            />
-          </Item>
-          <Item floatingLabel>
-            <Label>Email</Label>
-            <Input
-              onChangeText={(emailValue) => {
-                setemail(emailValue);
-              }}
-              value={email}
-            />
-          </Item>
-          <Item floatingLabel>
-            <Label>Şifre</Label>
-            <Input
-              onChangeText={(passwordValue) => {
-                setpassword(passwordValue);
-              }}
-              value={password}
-            />
-          </Item>
-          <Item floatingLabel>
-            <Label>Şifre(Tekrar)</Label>
-            <Input
-              onChangeText={(confirmpwdValue) => {
-                setconfirmPwd(confirmpwdValue);
-              }}
-              value={confirmPwd}
-            />
-          </Item>
-          <Button
-            onPress={registerUser}
-            primary
-            style={{ width: "45%", alignSelf: "center", marginTop: 15 }}
-          >
-            <Text style={{ textAlign: "center", width: "100%" }}>Kayıt OL</Text>
-          </Button>
-          <Text style={{ fontSize: 12, textAlign: "center", marginTop: 15 }}>
-            Zaten bir hesabın var mı? &nbsp;
-            <Text
-              style={{ color: "black", textDecorationLine: "underline" }}
-              onPress={() => {
-                navigation.navigate("Giriş Yap");
-              }}
-            >
-              Giriş Yap
-            </Text>
+      <View style={{ marginVertical: 75 }}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={(nameValue) => {
+              setname(nameValue);
+            }}
+            value={name}
+            placeholder="Adınız"
+          />
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={(surnameValue) => {
+              setsurname(surnameValue);
+            }}
+            value={surname}
+            placeholder="Soyadınız"
+          />
+        </TouchableWithoutFeedback>
+
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={(emailValue) => {
+              setemail(emailValue);
+            }}
+            value={email}
+            placeholder="Email"
+          />
+        </TouchableWithoutFeedback>
+
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={(passwordValue) => {
+              setpassword(passwordValue);
+            }}
+            value={password}
+            placeholder="Şifre"
+          />
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={(confirmpwdValue) => {
+              setconfirmPwd(confirmpwdValue);
+            }}
+            value={confirmPwd}
+            placeholder="Şifre(Tekrar)"
+          />
+        </TouchableWithoutFeedback>
+
+        <TouchableOpacity style={styles.btn} onPress={registerUser}>
+          <Text style={{ width: "100%", textAlign: "center", fontSize: 16 }}>
+            Kayıt Ol
           </Text>
-        </Form>
-      </Content>
-    </Container>
+        </TouchableOpacity>
+        <Text style={{ fontSize: 12, textAlign: "center", marginTop: 15 }}>
+          Zaten bir hesabın var mı? &nbsp;
+          <Text
+            style={{
+              color: "black",
+              textDecorationLine: "underline",
+              fontSize: 16,
+            }}
+            onPress={() => {
+              navigation.navigate("Giriş Yap");
+            }}
+          >
+            Giriş Yap
+          </Text>
+        </Text>
+      </View>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  textInput: {
+    borderBottomWidth: 1,
+    borderBottomColor: "grey",
+    marginTop: 5,
+    padding: 10,
+    width: "100%",
+    alignSelf: "center",
+    fontSize: 16,
+  },
+  btn: {
+    paddingHorizontal: 2,
+    paddingVertical: 15,
+    borderColor: "transparent",
+    backgroundColor: "#6f9eaf",
+    width: "35%",
+    borderRadius: 50,
+    marginVertical: 15,
+    alignSelf: "center",
+  },
+});
 
 export default Register;
