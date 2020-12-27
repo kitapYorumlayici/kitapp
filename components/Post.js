@@ -7,13 +7,50 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+import * as firebase from "firebase";
+import Spinner from "react-native-loading-spinner-overlay";
 
-const Post = () => {
-  const [country, setcountry] = useState("");
+const Post = ({ navigation }) => {
+  const [category, setcategory] = useState(null);
+  const [bookName, setbookName] = useState("");
+  const [bookReview, setbookReview] = useState("");
+  const [spinner, setSpinner] = useState(false);
+
+  const sendPost = async () => {
+    if (!category) {
+      Alert.alert("Lütfen kategori seçiniz.");
+    } else if (!bookName) {
+      Alert.alert("Lütfen kitap adı giriniz.");
+    } else if (!bookReview) {
+      Alert.alert("Yorum kısmı boş bırakılamaz.");
+    } else {
+      const post = {
+        author: firebase.auth().currentUser.uid,
+        category: category,
+        bookName: bookName,
+        bookReview: bookReview,
+        starCount: 0,
+      };
+      setSpinner(true);
+      await firebase.database().ref(`posts`).push(post);
+      setbookName("");
+      setbookReview("");
+      setcategory(null);
+      setSpinner(false);
+      navigation.navigate("Profile");
+    }
+  };
+
   return (
     <View style={styles.container}>
+      <Spinner
+        visible={spinner}
+        textContent={"Yorumunuz yayınlanıyor."}
+        textStyle={{ color: "white" }}
+      />
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.content}>
           <Text style={styles.text}>Kitap Adı :</Text>
@@ -27,6 +64,10 @@ const Post = () => {
                 borderColor: "grey",
                 borderRadius: 5,
               }}
+              onChangeText={(bookNameValue) => {
+                setbookName(bookNameValue);
+              }}
+              value={bookName}
             />
           </TouchableWithoutFeedback>
         </View>
@@ -54,6 +95,10 @@ const Post = () => {
                 height: 150,
                 justifyContent: "flex-start",
               }}
+              onChangeText={(reviewValue) => {
+                setbookReview(reviewValue);
+              }}
+              value={bookReview}
             />
           </TouchableWithoutFeedback>
         </View>
@@ -120,7 +165,8 @@ const Post = () => {
                     value: "ekonomi",
                   },
                 ]}
-                defaultValue={country}
+                placeholder="Kategori seç"
+                defaultValue={category}
                 containerStyle={{ height: 40 }}
                 style={{ backgroundColor: "#fafafa", zIndex: 10 }}
                 itemStyle={{
@@ -129,7 +175,7 @@ const Post = () => {
                   zIndex: 10,
                 }}
                 dropDownStyle={{ backgroundColor: "#fafafa" }}
-                onChangeItem={(item) => setcountry(item.value)}
+                onChangeItem={(item) => setcategory(item.value)}
                 style={{ zIndex: 10 }}
               />
             </TouchableWithoutFeedback>
@@ -143,7 +189,7 @@ const Post = () => {
           width: "100%",
         }}
       >
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity style={styles.btn} onPress={sendPost}>
           <Text
             style={{
               flex: 1,

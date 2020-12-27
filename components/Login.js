@@ -10,22 +10,31 @@ import {
 } from "react-native";
 import HomeHeader from "./HomeHeader";
 import * as firebase from "firebase";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
+  const [spinner, setSpinner] = useState(false);
 
-  const loginWithemail = () => {
+  const loginWithemail = async () => {
     if (!email) {
       Alert.alert("Please type your email");
     } else if (!password) {
       Alert.alert("Please type your password");
     } else {
-      firebase.auth().signInWithEmailAndPassword(email, password);
+      setSpinner(true);
+      await firebase.auth().signInWithEmailAndPassword(email, password);
+      setSpinner(false);
     }
   };
   return (
     <View style={styles.container}>
+      <Spinner
+        visible={spinner}
+        textContent={"Giriş yapılıyor."}
+        textStyle={{ color: "white" }}
+      />
       <HomeHeader navigation={navigation} title="Giriş Yap" />
       <View style={{ marginVertical: 75 }}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
