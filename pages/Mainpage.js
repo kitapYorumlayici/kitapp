@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as firebase from "firebase";
 import Post from "../components/Post";
+import Profile from "../components/Profile";
 
 function DetailsScreen() {
   return (
@@ -62,27 +63,7 @@ function SettingsStackScreen() {
 }
 
 const ProfileScreen = () => {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Profile Page!</Text>
-      <Button
-        title="Logout"
-        onPress={() => {
-          Alert.alert("Logout", "Do you want to log out ?", [
-            {
-              text: "yes",
-              onPress: () => {
-                firebase.auth().signOut();
-              },
-            },
-            {
-              text: "no",
-            },
-          ]);
-        }}
-      />
-    </View>
-  );
+  return <Profile />;
 };
 
 const PostStack = createStackNavigator();

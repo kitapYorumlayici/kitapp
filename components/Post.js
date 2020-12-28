@@ -33,6 +33,7 @@ const Post = ({ navigation }) => {
         bookName: bookName,
         bookReview: bookReview,
         starCount: 0,
+        key: Math.floor(Math.random() * 999999999),
       };
       setSpinner(true);
       await firebase.database().ref(`posts`).push(post);

@@ -11,7 +11,6 @@ import {
 import HomeHeader from "./HomeHeader";
 import * as firebase from "firebase";
 import { AddUser } from "../users/AddUser";
-import Spinner from "react-native-loading-spinner-overlay";
 
 const Register = ({ navigation }) => {
   const [name, setname] = useState("");
@@ -19,7 +18,6 @@ const Register = ({ navigation }) => {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [confirmPwd, setconfirmPwd] = useState("");
-  const [spinner, setSpinner] = useState(false);
 
   const registerUser = async () => {
     if (!name) {
@@ -36,7 +34,6 @@ const Register = ({ navigation }) => {
       Alert.alert("Password does not match!");
     } else {
       try {
-        setSpinner(true);
         await firebase
           .auth()
           .createUserWithEmailAndPassword(email, password)
@@ -44,7 +41,6 @@ const Register = ({ navigation }) => {
             let uid = firebase.auth().currentUser.uid;
             AddUser(name, surname, email, uid);
           });
-        setSpinner(false);
       } catch (error) {
         return Alert.alert("Bu mail adresine ait hesap bulunmaktadır.");
       }
@@ -53,11 +49,6 @@ const Register = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Spinner
-        visible={spinner}
-        textContent={"Kayıt olunuyor."}
-        textStyle={{ color: "white" }}
-      />
       <HomeHeader navigation={navigation} title="Kayıt Ol" />
       <View style={{ marginVertical: 75 }}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
