@@ -7,14 +7,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as firebase from "firebase";
 import Post from "../components/Post";
 import Profile from "../components/Profile";
-
-function DetailsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Details!</Text>
-    </View>
-  );
-}
+import Categories from "../components/Categories";
 
 function HomeScreen({ navigation }) {
   return (
@@ -28,14 +21,10 @@ function HomeScreen({ navigation }) {
   );
 }
 
-function SettingsScreen({ navigation }) {
+function CategoriesScreen({ navigation }) {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Settings screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate("Details")}
-      />
     </View>
   );
 }
@@ -46,19 +35,17 @@ function HomeStackScreen() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home" component={HomeScreen} />
-      <HomeStack.Screen name="Details" component={DetailsScreen} />
     </HomeStack.Navigator>
   );
 }
 
-const SettingsStack = createStackNavigator();
+const CategoriesStack = createStackNavigator();
 
-function SettingsStackScreen() {
+function CategoriesStackScreen() {
   return (
-    <SettingsStack.Navigator>
-      <SettingsStack.Screen name="Settings" component={SettingsScreen} />
-      <SettingsStack.Screen name="Details" component={DetailsScreen} />
-    </SettingsStack.Navigator>
+    <CategoriesStack.Navigator>
+      <CategoriesStack.Screen name="Categories" component={Categories} />
+    </CategoriesStack.Navigator>
   );
 }
 
@@ -106,7 +93,7 @@ export default function Mainpage() {
         }}
       >
         <Tab.Screen name="Home" component={HomeStackScreen} />
-        <Tab.Screen name="Categories" component={SettingsStackScreen} />
+        <Tab.Screen name="Categories" component={CategoriesStackScreen} />
         <Tab.Screen name="Post" component={PostStackScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
