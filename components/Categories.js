@@ -1,46 +1,44 @@
-import React, { useState } from 'react';
-import { FlatList, View, Text, SafeAreaView, StyleSheet } from 'react-native';
+import React, { useState } from "react";
+import {
+  FlatList,
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
 const CategoriesList = [
-    { id: '1', value: 'Bilim & Mühendislik' },
-    { id: '2', value: 'Çocuk Kitapları' },
-    { id: '3', value: 'Dini' },
-    { id: '4', value: 'Eğitim' },
-    { id: '5', value: 'Edebiyat' },
-    { id: '6', value: 'Felsefe' },
-    { id: '7', value: 'Kültür' },
-    { id: '8', value: 'Müzik' },
-    { id: '9', value: 'Politika' },
-    { id: '10', value: 'Sağlık' },
-    { id: '11', value: 'Psikoloji' },
-    { id: '12', value: 'Siyaset' },
-    { id: '13', value: 'Tarih' },
-    { id: '14', value: 'Ekonomi' },
-  ];
+  { id: "1", title: "Bilim & Mühendislik", value: "bilim" },
+  { id: "2", title: "Çocuk Kitapları", value: "çocuk" },
+  { id: "3", title: "Dini", value: "dini" },
+  { id: "4", title: "Eğitim", value: "eğitim" },
+  { id: "5", title: "Edebiyat", value: "edebiyat" },
+  { id: "6", title: "Felsefe", value: "felsefe" },
+  { id: "7", title: "Kültür", value: "kültür" },
+  { id: "8", title: "Müzik", value: "müzik" },
+  { id: "9", title: "Politika", value: "politika" },
+  { id: "10", title: "Sağlık", value: "sağlık" },
+  { id: "11", title: "Psikoloji", value: "psikoloji" },
+  { id: "12", title: "Siyaset", value: "siyaset" },
+  { id: "13", title: "Tarih", value: "tarih" },
+  { id: "14", title: "Ekonomi", value: "ekonomi" },
+];
 
-const Categories = () => {
+const Categories = ({ navigation }) => {
   const [listItems, setListItems] = useState(CategoriesList);
 
   const ItemView = ({ item }) => {
     return (
-      <View>
-        <Text style={styles.item} onPress={() => getItem(item)}>
-          {item.value}
-        </Text>
-      </View>
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => {
+          navigation.navigate("List Screen", { item: item });
+        }}
+      >
+        <Text style={styles.text}>{item.title}</Text>
+      </TouchableOpacity>
     );
-  };
-
-  const ItemSeparatorView = () => {
-    return (
-      <View
-        style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8' }}
-      />
-    );
-  };
-
-  const getItem = (item) => {
-    alert('Id : ' + item.id + ' Value : ' + item.value);
   };
 
   return (
@@ -48,7 +46,6 @@ const Categories = () => {
       <View style={styles.container}>
         <FlatList
           data={listItems}
-          ItemSeparatorComponent={ItemSeparatorView}
           renderItem={ItemView}
           keyExtractor={(item, index) => index.toString()}
         />
@@ -61,17 +58,23 @@ export default Categories;
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    justifyContent: "center",
     flex: 1,
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
-    marginTop: 30,
+    marginVertical: 10,
   },
   item: {
     padding: 10,
-    fontSize: 18,
     height: 44,
+    marginVertical: 10,
+    width: "80%",
+    alignSelf: "center",
+    borderRadius: 12,
+    overflow: "hidden",
+    backgroundColor:"#aeaeae"
+  },
+  text: {
+    fontSize: 18,
+    width: "100%",
+    textAlign: "center",
   },
 });
-

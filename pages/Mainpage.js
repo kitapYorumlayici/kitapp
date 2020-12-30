@@ -8,6 +8,7 @@ import * as firebase from "firebase";
 import Post from "../components/Post";
 import Profile from "../components/Profile";
 import Categories from "../components/Categories";
+import ListScreen from "../components/ListScreen";
 
 function HomeScreen({ navigation }) {
   return (
@@ -17,14 +18,6 @@ function HomeScreen({ navigation }) {
         title="Go to Details"
         onPress={() => navigation.navigate("Details")}
       />
-    </View>
-  );
-}
-
-function CategoriesScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Settings screen</Text>
     </View>
   );
 }
@@ -45,6 +38,11 @@ function CategoriesStackScreen() {
   return (
     <CategoriesStack.Navigator>
       <CategoriesStack.Screen name="Categories" component={Categories} />
+      <CategoriesStack.Screen
+        name="List Screen"
+        component={ListScreen}
+        options={({ route }) => ({ title: route.params.item.title })}
+      />
     </CategoriesStack.Navigator>
   );
 }
