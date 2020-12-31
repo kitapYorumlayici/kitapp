@@ -97,6 +97,15 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginVertical: 15,
     alignSelf: "center",
+    shadowColor: "#6f9eaf",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 15,
+
+    elevation: 25,
   },
 });
 

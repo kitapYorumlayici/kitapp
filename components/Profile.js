@@ -11,15 +11,17 @@ import {
   TouchableOpacity,
 } from "react-native";
 import * as firebase from "firebase";
+import Item from "./Item";
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
   const [posts, setposts] = useState([]);
   const [user, setuser] = useState({});
 
   const getPosts = async () => {
-    await firebase
+    firebase
       .database()
       .ref("posts")
+      .orderByChild("bookName")
       .on("value", (snapshot) => {
         setposts([]);
         snapshot.forEach((childSnapshot) => {
@@ -28,24 +30,24 @@ const Profile = () => {
             let bookReview = childSnapshot.val().bookReview;
             let category = childSnapshot.val().category;
             let starCount = childSnapshot.val().starCount;
-            let key = childSnapshot.val().key;
+            let key = childSnapshot.key;
+            let author = childSnapshot.val().author;
             let newPost = {
               bookName,
               bookReview,
               category,
               starCount,
               key,
+              author,
             };
             setposts((posts) => [...posts, newPost]);
           }
         });
       });
-  };
-  const getUser = async () => {
     await firebase
       .database()
       .ref("users/" + firebase.auth().currentUser.uid)
-      .on("value", (snapshot) => {
+      .once("value", (snapshot) => {
         setuser([]);
         let user = {
           email: snapshot.val().email,
@@ -56,9 +58,13 @@ const Profile = () => {
       });
   };
   useEffect(() => {
-    getUser();
     getPosts();
   }, []);
+
+  const ItemView = ({ item }) => {
+    return <Item item={item} navigation={navigation} />;
+  };
+
   return (
     <SafeAreaView style={styles.safearea}>
       <View style={styles.userinfo}>
@@ -92,45 +98,8 @@ const Profile = () => {
       </View>
       <FlatList
         data={posts}
-        renderItem={(item) => (
-          <TouchableOpacity>
-            <View
-              style={{
-                padding: 10,
-                marginVertical: 10,
-                backgroundColor: "#eaeaea",
-                width: "85%",
-                alignSelf: "center",
-                borderRadius: 10,
-              }}
-            >
-              <Text
-                style={{
-                  width: "100%",
-                  textAlign: "center",
-                  paddingVertical: 5,
-                  fontSize: 16,
-                }}
-              >
-                {item.item.bookName}
-              </Text>
-              <Text
-                style={{
-                  width: "100%",
-                  textAlign: "left",
-                  height: 75,
-                  overflow: "hidden",
-                }}
-              >
-                {item.item.bookReview}
-              </Text>
-              <Text style={{ width: "100%", textAlign: "left", fontSize: 10 }}>
-                Kategori : {item.item.category}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        keyExtractor={(item) => item.key.toString()}
+        renderItem={ItemView}
+        keyExtractor={(item) => item.key}
       />
     </SafeAreaView>
   );
@@ -156,7 +125,26 @@ const styles = StyleSheet.create({
     padding: 20,
     borderBottomColor: "#393e46",
     borderBottomWidth: 1,
-    borderTopWidth: 1,
-    borderTopColor: "#393e46",
+  },
+  itemcontainer: {
+    padding: 10,
+    marginVertical: 10,
+    backgroundColor: "#eaeaea",
+    width: "85%",
+    alignSelf: "center",
+    borderRadius: 10,
+  },
+  itemname: {
+    width: "100%",
+    textAlign: "center",
+    paddingVertical: 5,
+    fontSize: 16,
+  },
+  itemreview: {
+    width: "100%",
+    textAlign: "left",
+    height: 75,
+    overflow: "hidden",
+    marginBottom: 5,
   },
 });

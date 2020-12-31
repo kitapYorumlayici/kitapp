@@ -9,31 +9,24 @@ import Post from "../components/Post";
 import Profile from "../components/Profile";
 import Categories from "../components/Categories";
 import ListScreen from "../components/ListScreen";
-
-function HomeScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Home screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate("Details")}
-      />
-    </View>
-  );
-}
+import PostItem from "../components/PostItem";
+import Home from "../components/Home";
 
 const HomeStack = createStackNavigator();
-
 function HomeStackScreen() {
   return (
     <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={HomeScreen} />
+      <HomeStack.Screen name="Home" component={Home} />
+      <HomeStack.Screen
+        name="Post Item"
+        component={PostItem}
+        options={({ route }) => ({ title: route.params.item.bookName })}
+      />
     </HomeStack.Navigator>
   );
 }
 
 const CategoriesStack = createStackNavigator();
-
 function CategoriesStackScreen() {
   return (
     <CategoriesStack.Navigator>
@@ -43,16 +36,34 @@ function CategoriesStackScreen() {
         component={ListScreen}
         options={({ route }) => ({ title: route.params.item.title })}
       />
+      <CategoriesStack.Screen
+        name="Post Item"
+        component={PostItem}
+        options={({ route }) => ({ title: route.params.item.bookName })}
+      />
     </CategoriesStack.Navigator>
   );
 }
 
+const ProfileStack = createStackNavigator();
 const ProfileScreen = () => {
-  return <Profile />;
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen
+        name="Profile"
+        component={Profile}
+        options={{ headerShown: false }}
+      />
+      <ProfileStack.Screen
+        name="Post Item"
+        component={PostItem}
+        options={({ route }) => ({ title: route.params.item.bookName })}
+      />
+    </ProfileStack.Navigator>
+  );
 };
 
 const PostStack = createStackNavigator();
-
 function PostStackScreen() {
   return (
     <PostStack.Navigator>

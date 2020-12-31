@@ -10,9 +10,8 @@ import {
 import * as firebase from "firebase";
 import Item from "./Item";
 
-const ListScreen = ({ route, navigation }) => {
+const Home = ({ navigation }) => {
   const [posts, setposts] = useState([]);
-  const { item } = route.params;
 
   const getPosts = () => {
     firebase
@@ -22,23 +21,21 @@ const ListScreen = ({ route, navigation }) => {
       .on("value", (snapshot) => {
         setposts([]);
         snapshot.forEach((childSnapshot) => {
-          if (item.title == childSnapshot.val().category) {
-            let bookName = childSnapshot.val().bookName;
-            let bookReview = childSnapshot.val().bookReview;
-            let category = childSnapshot.val().category;
-            let starCount = childSnapshot.val().starCount;
-            let author = childSnapshot.val().author;
-            let key = childSnapshot.key;
-            let newPost = {
-              author,
-              bookName,
-              bookReview,
-              category,
-              starCount,
-              key,
-            };
-            setposts((posts) => [...posts, newPost]);
-          }
+          let bookName = childSnapshot.val().bookName;
+          let bookReview = childSnapshot.val().bookReview;
+          let category = childSnapshot.val().category;
+          let starCount = childSnapshot.val().starCount;
+          let author = childSnapshot.val().author;
+          let key = childSnapshot.key;
+          let newPost = {
+            author,
+            bookName,
+            bookReview,
+            category,
+            starCount,
+            key,
+          };
+          setposts((posts) => [...posts, newPost]);
         });
       });
   };
@@ -63,7 +60,7 @@ const ListScreen = ({ route, navigation }) => {
   );
 };
 
-export default ListScreen;
+export default Home;
 
 const styles = StyleSheet.create({
   container: {

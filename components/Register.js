@@ -105,9 +105,7 @@ const Register = ({ navigation }) => {
         </TouchableWithoutFeedback>
 
         <TouchableOpacity style={styles.btn} onPress={registerUser}>
-          <Text style={{ width: "100%", textAlign: "center", fontSize: 16 }}>
-            Kayıt Ol
-          </Text>
+          <Text style={styles.btnText}>Kayıt Ol</Text>
         </TouchableOpacity>
         <Text style={{ fontSize: 12, textAlign: "center", marginTop: 15 }}>
           Zaten bir hesabın var mı? &nbsp;
@@ -151,6 +149,20 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginVertical: 15,
     alignSelf: "center",
+    shadowColor: "#6f9eaf",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 15,
+
+    elevation: 25,
+  },
+  btnText: {
+    width: "100%",
+    textAlign: "center",
+    fontSize: 16,
   },
 });
 

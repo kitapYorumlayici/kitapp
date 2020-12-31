@@ -19,7 +19,7 @@ const Post = ({ navigation }) => {
   const [bookReview, setbookReview] = useState("");
   const [spinner, setSpinner] = useState(false);
 
-  const sendPost = async () => {
+  const sendPost = () => {
     if (!category) {
       Alert.alert("Lütfen kategori seçiniz.");
     } else if (!bookName) {
@@ -33,10 +33,9 @@ const Post = ({ navigation }) => {
         bookName: bookName,
         bookReview: bookReview,
         starCount: 0,
-        key: Math.floor(Math.random() * 999999999),
       };
       setSpinner(true);
-      await firebase.database().ref(`posts`).push(post);
+      firebase.database().ref(`posts`).push(post);
       setbookName("");
       setbookReview("");
       setcategory(null);
@@ -57,14 +56,7 @@ const Post = ({ navigation }) => {
           <Text style={styles.text}>Kitap Adı :</Text>
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <TextInput
-              style={{
-                padding: 10,
-                backgroundColor: "#fff",
-                flex: 1,
-                borderWidth: 1,
-                borderColor: "grey",
-                borderRadius: 5,
-              }}
+              style={styles.textInput}
               onChangeText={(bookNameValue) => {
                 setbookName(bookNameValue);
               }}
@@ -73,29 +65,11 @@ const Post = ({ navigation }) => {
           </TouchableWithoutFeedback>
         </View>
         <View style={{ zIndex: 5 }}>
-          <Text
-            style={{
-              width: "100%",
-              fontSize: 20,
-              textAlign: "center",
-              paddingVertical: 10,
-            }}
-          >
-            Kitap Hakkındaki Yorumunuz
-          </Text>
+          <Text style={styles.textTitle}>Kitap Hakkındaki Yorumunuz</Text>
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <TextInput
               multiline={true}
-              style={{
-                padding: 10,
-                backgroundColor: "#fff",
-                borderWidth: 1,
-                borderColor: "grey",
-                margin: 10,
-                borderRadius: 5,
-                height: 150,
-                justifyContent: "flex-start",
-              }}
+              style={styles.textArea}
               onChangeText={(reviewValue) => {
                 setbookReview(reviewValue);
               }}
@@ -111,59 +85,59 @@ const Post = ({ navigation }) => {
                 items={[
                   {
                     label: "Bilim & Mühendislik",
-                    value: "bilim",
+                    value: "Bilim & Mühendislik",
                   },
                   {
                     label: "Çocuk Kitapları",
-                    value: "çocuk",
+                    value: "Çocuk Kitapları",
                   },
                   {
                     label: "Dini",
-                    value: "dini",
+                    value: "Dini",
                   },
                   {
                     label: "Eğitim",
-                    value: "eğitim",
+                    value: "Eğitim",
                   },
                   {
                     label: "Edebiyat",
-                    value: "edebiyat",
+                    value: "Edebiyat",
                   },
                   {
                     label: "Felsefe",
-                    value: "felsefe",
+                    value: "Felsefe",
                   },
                   {
                     label: "Kültür",
-                    value: "kültür",
+                    value: "Kültür",
                   },
                   {
                     label: "Müzik",
-                    value: "müzik",
+                    value: "Müzik",
                   },
                   {
                     label: "Politika",
-                    value: "politika",
+                    value: "Politika",
                   },
                   {
                     label: "Sağlık",
-                    value: "sağlık",
+                    value: "Sağlık",
                   },
                   {
                     label: "Psikoloji",
-                    value: "psikoloji",
+                    value: "Psikoloji",
                   },
                   {
                     label: "Siyaset",
-                    value: "siyaset",
+                    value: "Siyaset",
                   },
                   {
                     label: "Tarih",
-                    value: "tarih",
+                    value: "Tarih",
                   },
                   {
                     label: "Ekonomi",
-                    value: "ekonomi",
+                    value: "Ekonomi",
                   },
                 ]}
                 placeholder="Kategori seç"
@@ -183,24 +157,9 @@ const Post = ({ navigation }) => {
           </View>
         </View>
       </ScrollView>
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          width: "100%",
-        }}
-      >
+      <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.btn} onPress={sendPost}>
-          <Text
-            style={{
-              flex: 1,
-              textAlign: "center",
-              fontSize: 16,
-              alignSelf: "center",
-            }}
-          >
-            Yayınla
-          </Text>
+          <Text style={styles.buttonText}>Yayınla</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -234,5 +193,50 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginVertical: 15,
     alignSelf: "center",
+    shadowColor: "#6f9eaf",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 15,
+
+    elevation: 25,
+  },
+  textArea: {
+    padding: 10,
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "grey",
+    margin: 10,
+    borderRadius: 5,
+    height: 150,
+    justifyContent: "flex-start",
+  },
+  textTitle: {
+    width: "100%",
+    fontSize: 20,
+    textAlign: "center",
+    paddingVertical: 10,
+  },
+  textInput: {
+    padding: 10,
+    backgroundColor: "#fff",
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "grey",
+    borderRadius: 5,
+  },
+  buttonContainer: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+  },
+  buttonText: {
+    flex: 1,
+    textAlign: "center",
+    fontSize: 16,
+    alignSelf: "center",
+    color: "white",
   },
 });
