@@ -17,7 +17,7 @@ const Profile = ({ navigation }) => {
   const [posts, setposts] = useState([]);
   const [user, setuser] = useState({});
 
-  const getPosts = async () => {
+  const getPosts = () => {
     firebase
       .database()
       .ref("posts")
@@ -44,7 +44,7 @@ const Profile = ({ navigation }) => {
           }
         });
       });
-    await firebase
+    firebase
       .database()
       .ref("users/" + firebase.auth().currentUser.uid)
       .once("value", (snapshot) => {
