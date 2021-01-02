@@ -21,17 +21,17 @@ const Register = ({ navigation }) => {
 
   const registerUser = async () => {
     if (!name) {
-      Alert.alert("Username is required!");
+      Alert.alert("Ad'ınızı boş bırakamazsınız.");
     } else if (!surname) {
-      Alert.alert("Email is required!");
+      Alert.alert("Şifre'nizi boş bırakamazsınız.");
     } else if (!email) {
-      Alert.alert("Email is required!");
+      Alert.alert("Email'inizi boş bırakamazsınız.");
     } else if (!password) {
-      Alert.alert("Password is required!");
+      Alert.alert("Şifren'izi boş bırakamazsınız.");
     } else if (!confirmPwd) {
-      Alert.alert("Please confirm password!");
+      Alert.alert("Şifre'nizi onaylayınız.");
     } else if (password !== confirmPwd) {
-      Alert.alert("Password does not match!");
+      Alert.alert("Şifreler eşleşmelidir.");
     } else {
       try {
         await firebase

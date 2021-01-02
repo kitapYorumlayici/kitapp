@@ -10,20 +10,36 @@ const PostItem = ({ route }) => {
   const [author, setauthor] = useState([]);
   const [spinner, setspinner] = useState(true);
   const [isLiked, setisLiked] = useState(false);
+  const [currentUser, setcurrentUser] = useState([]);
 
   const getUserAndPost = () => {
     firebase
       .database()
       .ref("users/" + item.author)
-      .once("value", (snapshot) => {
+      .on("value", (snapshot) => {
         setauthor([]);
         let user = {
           email: snapshot.val().email,
           name: snapshot.val().name,
           surname: snapshot.val().surname,
           uid: snapshot.val().uid,
+          token: snapshot.val().token,
         };
         setauthor(user);
+      });
+    firebase
+      .database()
+      .ref("users/" + firebase.auth().currentUser.uid)
+      .on("value", (snapshot) => {
+        setcurrentUser([]);
+        let user = {
+          email: snapshot.val().email,
+          name: snapshot.val().name,
+          surname: snapshot.val().surname,
+          uid: snapshot.val().uid,
+          token: snapshot.val().token,
+        };
+        setcurrentUser(user);
       });
 
     firebase
@@ -72,6 +88,7 @@ const PostItem = ({ route }) => {
           starCount: post.starCount + 1,
         });
       setisLiked(true);
+      sendPushNotification();
     } else {
       firebase
         .database()
@@ -99,7 +116,37 @@ const PostItem = ({ route }) => {
         });
 
       setisLiked(false);
+      sendPushNotification();
     }
+  };
+
+  const sendPushNotification = async () => {
+    const message = {
+      to: author.token,
+      sound: "default",
+      title: "Bazı değişiklikler var",
+      body:
+        isLiked == false
+          ? currentUser.name +
+            " ," +
+            post.bookName +
+            " adlı kitap için yazdığın yorumunu beğendi."
+          : currentUser.name +
+            " ," +
+            post.bookName +
+            " adlı kitap için yazdığın yorumundaki beğenisini geri aldı.",
+      data: { data: "goes here" },
+    };
+
+    await fetch("https://exp.host/--/api/v2/push/send", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Accept-encoding": "gzip, deflate",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(message),
+    });
   };
 
   useEffect(() => {

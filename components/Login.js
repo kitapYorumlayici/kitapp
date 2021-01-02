@@ -17,9 +17,9 @@ const Login = ({ navigation }) => {
 
   const loginWithemail = async () => {
     if (!email) {
-      Alert.alert("Please type your email");
+      Alert.alert("Email'inizi giriniz.");
     } else if (!password) {
-      Alert.alert("Please type your password");
+      Alert.alert("Şifre'nizi giriniz.");
     } else {
       await firebase.auth().signInWithEmailAndPassword(email, password);
     }
