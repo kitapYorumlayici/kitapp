@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { SafeAreaView, StyleSheet, View, FlatList } from "react-native";
 import * as firebase from "firebase";
 import Item from "./Item";
 

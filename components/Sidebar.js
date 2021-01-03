@@ -4,7 +4,6 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import * as Font from "expo-font";
 
 const Sidebar = ({ ...props }) => {
 
